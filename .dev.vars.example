@@ -1,0 +1,10 @@
+# This file is only an EXAMPLE. Do NOT put real values here.
+# Real values go in the Cloudflare dashboard: Worker → Settings → Variables and Secrets (type: Secret)
+#
+# To test locally with "npx wrangler dev", copy this file and rename it to .dev.vars.
+# .dev.vars is listed in .gitignore, so it is never uploaded to GitHub.
+
+ADMIN_PASSWORD=your-admin-password
+TELEGRAM_BOT_TOKEN=123456789:your-bot-token
+TELEGRAM_CHAT_ID=123456789
+# SITE_URL=https://ornek-berber.bg

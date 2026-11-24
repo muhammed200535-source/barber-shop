@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Админ панел</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0b0d;--card:#17171c;--card2:#1d1d23;--line:rgba(255,255,255,.08);--text:#ece9e2;--muted:#9d9a93;--gold:#c9a45c;--gold2:#e8cf8f;--red:#ff8f7a;--green:#7ad69a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:Manrope,system-ui,sans-serif;min-height:100vh}
+.wrap{max-width:820px;margin:0 auto;padding:20px 16px 120px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+header .b{display:flex;align-items:center;gap:12px;min-width:0}
+header .b img,header .b .mono{width:44px;height:44px;border-radius:50%;flex:none}
+header .b .mono{display:grid;place-items:center;background:rgba(201,164,92,.15);color:var(--gold2);font-family:"Playfair Display",serif;font-size:1.3rem}
+header h1{font-family:"Playfair Display",serif;font-size:1.35rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+header .btn{white-space:nowrap}
+button,input,select,textarea{font:inherit}
+.btn{padding:11px 18px;border-radius:12px;border:1px solid var(--line);background:none;color:var(--text);cursor:pointer;font-weight:600}
+.btn:hover{border-color:rgba(201,164,92,.5)}
+.btn.gold{background:var(--gold);color:#16130c;border-color:var(--gold)}
+.btn.sm{padding:7px 12px;font-size:.85rem;border-radius:10px}
+.btn.danger{color:var(--red)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.tabs{display:flex;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:5px;margin-bottom:22px}
+.tabs button{flex:1;padding:11px;border:0;border-radius:10px;background:none;color:var(--muted);font-weight:700;cursor:pointer}
+.tabs button.on{background:var(--gold);color:#16130c}
+.login{max-width:360px;margin:12vh auto;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:30px;text-align:center}
+.login input{width:100%;padding:14px;border-radius:12px;border:1px solid var(--line);background:#0f0f13;color:var(--text);margin:18px 0 12px;font-size:16px}
+.err{color:var(--red);font-size:.9rem;min-height:1.2em;margin-top:8px}
+.ok{color:var(--green)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.stat b{display:block;font-family:"Playfair Display",serif;font-size:1.7rem;color:var(--gold2)}
+.stat span{font-size:.78rem;color:var(--muted)}
+.day{margin-bottom:22px}
+.day h2{font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-weight:700}
+.bk{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:grid;grid-template-columns:70px 1fr auto;gap:12px;align-items:center;margin-bottom:8px}
+.bk .t{font-family:"Playfair Display",serif;font-size:1.35rem}
+.bk .t small{display:block;font-family:Manrope;font-size:.72rem;color:var(--muted)}
+.bk .n{font-weight:700}
+.bk .s{font-size:.85rem;color:var(--muted)}
+.bk .note{font-size:.82rem;color:#cfcbc2;margin-top:4px}
+.bk .acts{display:flex;gap:6px}
+.bk .acts a,.bk .acts button{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);display:grid;place-items:center;color:var(--text);background:none;cursor:pointer;text-decoration:none}
+.bk.past{opacity:.5}
+.bk.block{background:repeating-linear-gradient(135deg,#16161b 0 10px,#1a1a20 10px 20px)}
+.bk.block .n{color:var(--muted)}
+.tag{display:inline-block;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:99px;margin-left:6px;vertical-align:middle;background:rgba(201,164,92,.15);color:var(--gold2)}
+.empty{text-align:center;color:var(--muted);padding:60px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:16px}
+.card h3{font-family:"Playfair Display",serif;font-size:1.2rem;margin-bottom:4px}
+.card .sub{color:var(--muted);font-size:.85rem;margin-bottom:16px}
+.add{border-color:rgba(201,164,92,.35);display:none}
+.add.open{display:block}
+.seg{display:flex;background:#0f0f13;border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:14px}
+.seg button{flex:1;padding:10px;border:0;border-radius:9px;background:none;color:var(--muted);font-weight:700;cursor:pointer}
+.seg button.on{background:var(--gold);color:#16130c}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid .full{grid-column:1/-1}
+label.l{display:block;font-size:.75rem;color:var(--muted);font-weight:600;margin-bottom:5px}
+.grid input,.grid select,.grid textarea,.row-item input,.row-item select,.row-item textarea{width:100%;padding:11px 12px;border-radius:11px;border:1px solid var(--line);background:#0f0f13;color:var(--text);font-size:16px;color-scheme:dark}
+textarea{resize:vertical;min-height:70px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
+.hint{font-size:.78rem;color:var(--muted);margin-top:5px}
+.actions{display:flex;gap:8px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}
+.row-item{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px}
+.row-item .top{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+.row-item .top b{flex:1;font-size:.85rem;color:var(--gold2)}
+.row-item .g{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px}
+.row-item .g .full{grid-column:1/-1}
+.check{display:flex;align-items:center;gap:8px;font-size:.9rem;cursor:pointer}
+.check input{width:18px;height:18px;accent-color:var(--gold)}
+.hours-row{display:grid;grid-template-columns:110px 90px 1fr 1fr;gap:8px;align-items:center;margin-bottom:8px}
+.hours-row input[type=time]{width:100%;padding:9px 10px;border-radius:11px;border:1px solid var(--line);background:#0f0f13;color:var(--text);font-size:16px;color-scheme:dark}
+.hours-row input[type=time]:disabled{opacity:.35}
+.color{display:flex;gap:8px}
+.color input[type=color]{width:52px;height:46px;padding:4px;border-radius:11px;border:1px solid var(--line);background:#0f0f13;flex:none}
+.media{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.slot{aspect-ratio:1;border-radius:14px;border:1px dashed rgba(255,255,255,.18);position:relative;overflow:hidden;display:grid;place-items:center;color:var(--muted);font-size:.8rem;cursor:pointer;background:#0f0f13;text-align:center;padding:6px}
+.slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.slot .x{position:absolute;top:6px;right:6px;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.7);border:0;color:#fff;cursor:pointer;z-index:2}
+.slot.busy::after{content:"…";position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.6);color:#fff;font-size:1.6rem}
+.logo-row{display:flex;gap:16px;align-items:center}
+.logo-row .slot{width:110px;flex:none}
+.savebar{position:fixed;left:0;right:0;bottom:0;background:rgba(11,11,13,.94);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:12px 16px;z-index:20}
+.savebar .in{max-width:820px;margin:0 auto;display:flex;gap:12px;align-items:center;justify-content:space-between}
+.savebar .msg{font-size:.88rem;color:var(--muted)}
+.savebar .btn{min-width:160px}
+@media(max-width:600px){
+  .grid{grid-template-columns:1fr}
+  .row-item .g{grid-template-columns:1fr 1fr}
+  .row-item .g .wide{grid-column:1/-1}
+  .media{grid-template-columns:repeat(3,1fr)}
+  .hours-row{grid-template-columns:1fr 1fr;row-gap:6px}
+  .hours-row .dname{font-weight:700}
+  .bk{grid-template-columns:58px 1fr}.bk .acts{grid-column:1/-1;justify-content:flex-end}
+  header>div:last-child{width:100%;display:flex;gap:8px}header>div:last-child .btn{flex:1}
+}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script type="module">
+import { WEEKDAYS, formatDateBG, nowInZone, toMin, fromMin, addDays, overlapCount } from "/booking.js";
+
+const app = document.getElementById("app");
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const ICONS = { scissors: "Ножици", beard: "Брада", crown: "Корона", curl: "Къдрици", razor: "Бръснач", star: "Звезда", coffee: "Кафе", clock: "Часовник", card: "Карта", child: "Дете" };
+let key = "";
+try { key = sessionStorage.getItem("bb_admin") || ""; } catch {}
+let S = null;          // settings
+let tab = "bookings";
+let addOpen = false, addType = "phone";
+let dirty = false;
+
+/* ======================= API ======================= */
+async function api(method, path, body, headers = {}) {
+  const opts = { method, headers: { "x-admin-key": key, ...headers } };
+  if (body !== undefined) {
+    if (body instanceof Blob) opts.body = body;
+    else { opts.body = JSON.stringify(body); opts.headers["content-type"] = "application/json"; }
+  }
+  const r = await fetch(path, opts);
+  const data = await r.json().catch(() => ({}));
+  if (r.status === 401) throw Object.assign(new Error(data.error || "Грешна парола."), { auth: true });
+  if (!r.ok) throw new Error(data.error || "Грешка");
+  return data;
+}
+
+function loginView(msg = "") {
+  app.innerHTML = `
+    <form class="login" id="lf">
+      <h1 style="font-family:'Playfair Display',serif">Админ панел</h1>
+      <input type="password" id="pw" placeholder="Парола" autocomplete="current-password" required>
+      <button class="btn gold" style="width:100%">Вход</button>
+      <div class="err">${esc(msg)}</div>
+    </form>`;
+  document.getElementById("lf").onsubmit = (e) => {
+    e.preventDefault();
+    key = document.getElementById("pw").value;
+    try { sessionStorage.setItem("bb_admin", key); } catch {}
+    start();
+  };
+}
+
+async function start() {
+  if (!key) return loginView();
+  try { S = await api("GET", "/api/admin/settings"); }
+  catch (e) {
+    if (e.auth) { try { sessionStorage.removeItem("bb_admin"); } catch {} key = ""; return loginView("Грешна парола."); }
+    return (app.innerHTML = `<p class="empty">${esc(e.message)}</p>`);
+  }
+  render();
+}
+
+function shell(inner) {
+  const logo = S.logo ? `<img src="/media/${S.logo}?v=${S.mediaVersion || 1}" alt="">` : `<span class="mono">${esc((S.shortName || S.name || "B")[0])}</span>`;
+  document.title = `Админ — ${S.name}`;
+  return `
+    <header>
+      <div class="b">${logo}<h1>${esc(S.name)}</h1></div>
+      <div><a class="btn" href="/" target="_blank">Сайт ↗</a> <button class="btn" id="lo">Изход</button></div>
+    </header>
+    <div class="tabs">
+      <button data-tab="bookings" class="${tab === "bookings" ? "on" : ""}">📅 Резервации</button>
+      <button data-tab="settings" class="${tab === "settings" ? "on" : ""}">⚙️ Настройки</button>
+    </div>
+    ${inner}`;
+}
+
+function bindShell() {
+  document.getElementById("lo").onclick = () => { try { sessionStorage.removeItem("bb_admin"); } catch {} key = ""; loginView(); };
+  app.querySelectorAll("[data-tab]").forEach((b) => b.onclick = () => {
+    if (tab === "settings" && dirty && !confirm("Имате незапазени промени. Да продължа ли без запис?")) return;
+    if (tab === "settings" && dirty) { dirty = false; start(); tab = b.dataset.tab; return; }
+    tab = b.dataset.tab; render();
+  });
+}
+
+function render() {
+  if (tab === "bookings") return bookingsView();
+  return settingsView();
+}
+
+/* ======================= BOOKINGS ======================= */
+const svcName = (id) => (S.services || []).find((s) => s.id === id)?.name || id;
+
+async function bookingsView() {
+  const now = nowInZone(S.timeZone);
+  let data;
+  try { data = await api("GET", `/api/admin?from=${now.date}&days=60`); }
+  catch (e) {
+    if (e.auth) return loginView("Грешна парола.");
+    app.innerHTML = shell(`<p class="empty">${esc(e.message)}</p>`); bindShell(); return;
+  }
+  const all = data.days.flatMap((d) => d.bookings).filter((b) => b.service !== "block");
+  const today = (data.days.find((d) => d.date === now.date)?.bookings || []).filter((b) => b.service !== "block").length;
+  const week = data.days.filter((d) => d.date <= addDays(now.date, 6)).flatMap((d) => d.bookings).filter((b) => b.service !== "block").length;
+
+  app.innerHTML = shell(`
+    <div style="display:flex;gap:8px;margin-bottom:16px">
+      <button class="btn gold" id="addBtn" style="flex:1">+ Добави резервация / блокирай час</button>
+      <button class="btn" id="rf" title="Обнови">↻</button>
+    </div>
+    <form class="card add ${addOpen ? "open" : ""}" id="addForm">
+      <div class="seg"><button type="button" data-type="phone" class="${addType === "phone" ? "on" : ""}">📞 По телефон</button><button type="button" data-type="block" class="${addType === "block" ? "on" : ""}">⛔ Блокирай час</button></div>
+      <div class="grid">
+        <div class="full" data-only="phone"><label class="l">Услуга</label><select id="aSvc">${(S.services || []).map((x) => `<option value="${esc(x.id)}">${esc(x.name)} · ${x.duration} мин</option>`).join("")}</select></div>
+        <div class="full" data-only="block"><label class="l">Продължителност</label><select id="aDur">${[30, 60, 90, 120, 180, 240, 300, 360, 480, 600].map((m) => `<option value="${m}">${m < 60 ? m + " мин" : (m / 60) + " ч"}</option>`).join("")}</select></div>
+        <div><label class="l">Дата</label><input type="date" id="aDate" min="${now.date}" value="${now.date}"></div>
+        <div><label class="l">Час</label><select id="aTime"></select></div>
+        <div data-only="phone"><label class="l">Име на клиента</label><input id="aName" maxlength="60" placeholder="Име"></div>
+        <div data-only="phone"><label class="l">Телефон (по желание)</label><input id="aPhone" type="tel" maxlength="20" placeholder="08X XXX XXXX"></div>
+        <div class="full"><label class="l">Бележка (по желание)</label><input id="aNote" maxlength="300"></div>
+      </div>
+      <div class="err" id="aErr"></div>
+      <div class="actions"><button type="button" class="btn" id="aCancel">Отказ</button><button class="btn gold" id="aSave">Запази</button></div>
+    </form>
+    <div class="stats">
+      <div class="stat"><b>${today}</b><span>днес</span></div>
+      <div class="stat"><b>${week}</b><span>следващите 7 дни</span></div>
+      <div class="stat"><b>${all.length}</b><span>общо (60 дни)</span></div>
+    </div>
+    ${data.days.length ? data.days.map((d) => `
+      <div class="day">
+        <h2>${d.date === now.date ? "Днес · " : ""}${formatDateBG(d.date)}</h2>
+        ${d.bookings.map((b) => {
+          const past = d.date === now.date && toMin(b.time) + b.duration < now.minutes;
+          const block = b.service === "block";
+          const tagTxt = b.source === "phone" ? "по телефон" : b.source === "online" ? "онлайн" : "";
+          return `
+          <div class="bk ${past ? "past" : ""} ${block ? "block" : ""}">
+            <div class="t">${esc(b.time)}<small>${b.duration} мин</small></div>
+            <div>
+              <div class="n">${block ? "⛔ " : ""}${esc(b.name)}${tagTxt ? `<span class="tag">${tagTxt}</span>` : ""}</div>
+              <div class="s">${block ? `Блокиран · до ${fromMin(toMin(b.time) + b.duration)}` : esc(svcName(b.service)) + (b.phone ? " · " + esc(b.phone) : "")}</div>
+              ${b.note ? `<div class="note">📝 ${esc(b.note)}</div>` : ""}
+            </div>
+            <div class="acts">
+              ${b.phone ? `<a href="tel:${esc(String(b.phone).replace(/[^\d+]/g, ""))}" title="Обади се">📞</a>` : ""}
+              <button data-del="${esc(b.id)}" title="Отмени">✕</button>
+            </div>
+          </div>`;
+        }).join("")}
+      </div>`).join("") : `<p class="empty">Няма предстоящи резервации.</p>`}`);
+  bindShell();
+  document.getElementById("rf").onclick = bookingsView;
+  app.querySelectorAll("[data-del]").forEach((btn) => btn.onclick = async () => {
+    if (!confirm("Да се отмени ли тази резервация?")) return;
+    try { await api("DELETE", `/api/admin?id=${encodeURIComponent(btn.dataset.del)}`); bookingsView(); }
+    catch (e) { alert(e.message); }
+  });
+  setupAdd(now);
+}
+
+function setupAdd(now) {
+  const $ = (id) => document.getElementById(id);
+  const f = $("addForm");
+  const applyType = () => {
+    f.querySelectorAll(".seg button").forEach((x) => x.classList.toggle("on", x.dataset.type === addType));
+    f.querySelectorAll("[data-only]").forEach((el) => el.hidden = el.dataset.only !== addType);
+    $("aNote").placeholder = addType === "block" ? "Напр. обедна почивка, отпуск" : "Напр. фейд, къса брада";
+  };
+  applyType();
+  $("addBtn").onclick = () => { addOpen = !addOpen; f.classList.toggle("open", addOpen); if (addOpen) refreshTimes(); };
+  $("aCancel").onclick = () => { addOpen = false; f.classList.remove("open"); };
+  f.querySelectorAll(".seg button").forEach((b) => b.onclick = () => { addType = b.dataset.type; applyType(); refreshTimes(); });
+  ["aSvc", "aDur", "aDate"].forEach((id) => $(id).onchange = refreshTimes);
+
+  async function refreshTimes() {
+    const date = $("aDate").value, sel = $("aTime");
+    const dur = addType === "block" ? Number($("aDur").value) : (S.services.find((x) => x.id === $("aSvc").value) || {}).duration || 30;
+    const h = date && S.hours && S.hours[new Date(date + "T12:00:00Z").getUTCDay()];
+    if (!h || (S.closedDates || []).includes(date)) { sel.innerHTML = `<option value="">Почивен ден</option>`; return; }
+    sel.innerHTML = `<option value="">Зареждане…</option>`;
+    let busy = [];
+    try { busy = (await (await fetch(`/api/slots?date=${date}`, { cache: "no-store" })).json()).busy || []; } catch {}
+    const [o, c] = h.map(toMin), opts = [];
+    const nowCut = date === now.date ? nowInZone(S.timeZone).minutes - 30 : -1;
+    for (let t = o; t + dur <= c; t += S.slotStep) {
+      if (t < nowCut) continue;
+      const full = overlapCount(busy, t, dur) >= S.chairs;
+      opts.push(`<option value="${fromMin(t)}" ${full ? "disabled" : ""}>${fromMin(t)}${full ? " — зает" : ""}</option>`);
+    }
+    sel.innerHTML = opts.join("") || `<option value="">Няма място</option>`;
+    const first = sel.querySelector("option:not([disabled])"); if (first) sel.value = first.value;
+  }
+  if (addOpen) refreshTimes();
+
+  f.onsubmit = async (e) => {
+    e.preventDefault();
+    const err = $("aErr"); err.textContent = "";
+    if (!$("aTime").value) { err.textContent = "Изберете свободен час."; return; }
+    const body = addType === "block"
+      ? { type: "block", date: $("aDate").value, time: $("aTime").value, duration: Number($("aDur").value), name: $("aNote").value || "Блокиран час" }
+      : { type: "phone", service: $("aSvc").value, date: $("aDate").value, time: $("aTime").value, name: $("aName").value, phone: $("aPhone").value, note: $("aNote").value };
+    if (body.type === "phone" && body.name.trim().length < 2) { err.textContent = "Въведете име на клиента."; return; }
+    $("aSave").disabled = true;
+    try { await api("POST", "/api/admin", body); addOpen = false; bookingsView(); }
+    catch (e2) { err.textContent = e2.message; $("aSave").disabled = false; refreshTimes(); }
+  };
+}
+
+/* ======================= SETTINGS ======================= */
+const F = (k, label, opts = {}) => {
+  const v = S[k] ?? "";
+  const ph = opts.ph ? ` placeholder="${esc(opts.ph)}"` : "";
+  const field = opts.area
+    ? `<textarea data-f="${k}" maxlength="${opts.max || 300}"${ph}>${esc(v)}</textarea>`
+    : `<input data-f="${k}" value="${esc(v)}" type="${opts.type || "text"}" maxlength="${opts.max || 120}"${ph}${opts.step ? ` step="${opts.step}"` : ""}>`;
+  return `<div class="${opts.full ? "full" : ""}"><label class="l">${label}</label>${field}${opts.hint ? `<div class="hint">${opts.hint}</div>` : ""}</div>`;
+};
+const iconSelect = (val, attr) => `<select ${attr}>${Object.entries(ICONS).map(([k, n]) => `<option value="${k}" ${k === val ? "selected" : ""}>${n}</option>`).join("")}</select>`;
+
+function settingsView() {
+  const o = S.offer || {};
+  const badges = S.badges || [{}, {}];
+  app.innerHTML = shell(`
+    <div class="card">
+      <h3>Бизнес</h3><div class="sub">Основна информация, която се показва на сайта и в Google.</div>
+      <div class="grid">
+        ${F("name", "Име на бизнеса", { max: 80, ph: "Barber Shop Example" })}
+        ${F("city", "Град", { max: 60, ph: "Варна" })}
+        ${F("shortName", "Кратко име (в менюто)", { max: 30 })}
+        ${F("subName", "Подзаглавие под името", { max: 40, ph: "BARBER SHOP" })}
+        ${F("phone", "Телефон", { max: 20, ph: "+359888123456", type: "tel" })}
+        ${F("eyebrow", "Малък надпис над заглавието", { max: 60, ph: "Барбершоп · Варна" })}
+        ${F("address", "Адрес", { max: 160, full: true })}
+        ${F("instagram", "Instagram линк", { max: 400, ph: "https://www.instagram.com/..." })}
+        ${F("facebook", "Facebook линк", { max: 400, ph: "https://www.facebook.com/..." })}
+        ${F("tiktok", "TikTok линк", { max: 400, ph: "https://www.tiktok.com/@..." })}
+        ${F("mapsUrl", "Google Maps линк", { max: 400, ph: "https://www.google.com/maps/place/...", hint: "Поставете пълния линк — координатите се попълват сами." })}
+        ${F("lat", "Географска ширина (lat)", { type: "number", step: "any" })}
+        ${F("lng", "Географска дължина (lng)", { type: "number", step: "any" })}
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Външен вид</h3><div class="sub">Лого, цветове и текстове в началото на сайта.</div>
+      <div class="logo-row" style="margin-bottom:16px">
+        ${slotHTML("logo", S.logo ? "logo" : "", "Качи лого")}
+        <div class="hint">Квадратно лого (PNG или JPG). Показва се в менюто, в центъра на началния екран и като икона на сайта.</div>
+      </div>
+      <div class="grid">
+        <div><label class="l">Основен цвят (бутони, акценти)</label><div class="color"><input type="color" data-color="accent" value="${esc(S.accent)}"><input data-f="accent" value="${esc(S.accent)}" maxlength="7"></div></div>
+        <div><label class="l">Фон (тъмен цвят)</label><div class="color"><input type="color" data-color="bg" value="${esc(S.bg)}"><input data-f="bg" value="${esc(S.bg)}" maxlength="7"></div></div>
+        ${F("heroTitle1", "Голямо заглавие — ред 1", { max: 30 })}
+        ${F("heroTitle2", "Голямо заглавие — ред 2 (в цвят)", { max: 30 })}
+        ${F("tagline", "Слоган", { max: 120, full: true })}
+        ${F("heroText", "Кратък текст под слогана", { max: 300, full: true, area: true })}
+        <div><label class="l">Значка 1 — заглавие</label><input data-badge="0.title" value="${esc(badges[0]?.title)}" maxlength="30"></div>
+        <div><label class="l">Значка 1 — текст</label><input data-badge="0.text" value="${esc(badges[0]?.text)}" maxlength="40"></div>
+        <div><label class="l">Значка 2 — заглавие</label><input data-badge="1.title" value="${esc(badges[1]?.title)}" maxlength="30"></div>
+        <div><label class="l">Значка 2 — текст</label><input data-badge="1.text" value="${esc(badges[1]?.text)}" maxlength="40"></div>
+        <div class="full"><label class="l">Движеща се лента (думи, разделени със запетая)</label><input id="marqueeIn" value="${esc((S.marquee || []).join(", "))}"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Услуги и цени</h3><div class="sub">Празна цена = „по запитване“. Продължителността определя колко време заема часът.</div>
+      <div id="svcList"></div>
+      <button class="btn sm" id="svcAdd">+ Добави услуга</button>
+    </div>
+
+    <div class="card">
+      <h3>Оферта</h3><div class="sub">Голям блок с промоция (напр. пакет на специална цена).</div>
+      <label class="check" style="margin-bottom:14px"><input type="checkbox" id="offOn" ${o.enabled ? "checked" : ""}> Покажи офертата на сайта</label>
+      <div class="grid">
+        <div><label class="l">Малък надпис</label><input id="offEyebrow" value="${esc(o.eyebrow)}" maxlength="40" placeholder="Топ оферта"></div>
+        <div><label class="l">Заглавие</label><input id="offTitle" value="${esc(o.title)}" maxlength="80" placeholder="Пълна грижа за теб"></div>
+        <div><label class="l">Цена (€)</label><input id="offPrice" value="${esc(o.price ?? "")}" inputmode="decimal"></div>
+        <div><label class="l">Текст до цената</label><input id="offNote" value="${esc(o.priceNote)}" maxlength="40" placeholder="всичко това"></div>
+        <div class="full"><label class="l">Какво включва (по един на ред)</label><textarea id="offItems">${esc((o.items || []).join("\n"))}</textarea></div>
+        <div class="full"><label class="l">Бутонът „Запази“ избира услуга</label><select id="offSvc"><option value="">—</option>${(S.services || []).map((s) => `<option value="${esc(s.id)}" ${s.id === o.serviceId ? "selected" : ""}>${esc(s.name)}</option>`).join("")}</select></div>
+      </div>
+      <div style="margin-top:16px"><label class="l">Предимства до офертата (до 4)</label><div id="hlList"></div><button class="btn sm" id="hlAdd">+ Добави предимство</button></div>
+    </div>
+
+    <div class="card">
+      <h3>Галерия</h3><div class="sub">До 8 снимки. Снимките се смаляват автоматично преди качване.</div>
+      <div class="media">${["g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8"].map((g) => slotHTML(g, (S.gallery || []).includes(g) ? g : "", "+ Снимка")).join("")}</div>
+    </div>
+
+    <div class="card">
+      <h3>Работно време и резервации</h3><div class="sub">Онлайн резервациите се правят само в тези часове.</div>
+      <div id="hoursBox">${[1, 2, 3, 4, 5, 6, 0].map((d) => {
+        const h = S.hours && S.hours[d];
+        return `<div class="hours-row"><span class="dname">${WEEKDAYS[d]}</span>
+          <label class="check"><input type="checkbox" data-open="${d}" ${h ? "checked" : ""}> отворено</label>
+          <input type="time" data-from="${d}" value="${h ? h[0] : "09:00"}" ${h ? "" : "disabled"}>
+          <input type="time" data-to="${d}" value="${h ? h[1] : "19:00"}" ${h ? "" : "disabled"}></div>`;
+      }).join("")}</div>
+      <div class="grid" style="margin-top:12px">
+        <div><label class="l">Бръснари (клиенти едновременно)</label><input type="number" data-f="chairs" min="1" max="20" value="${S.chairs}"></div>
+        <div><label class="l">Начало на часовете през</label><select data-f="slotStep">${[10, 15, 20, 30, 45, 60].map((m) => `<option value="${m}" ${m === S.slotStep ? "selected" : ""}>${m} мин</option>`).join("")}</select></div>
+        <div><label class="l">Мин. време предварително (мин)</label><input type="number" data-f="minLeadMinutes" min="0" max="1440" value="${S.minLeadMinutes}"></div>
+        <div><label class="l">Резервации до (дни напред)</label><input type="number" data-f="maxDaysAhead" min="1" max="90" value="${S.maxDaysAhead}"></div>
+        <div class="full"><label class="l">Почивни дати (по една на ред, ГГГГ-ММ-ДД)</label><textarea id="closedIn" placeholder="2026-12-25">${esc((S.closedDates || []).join("\n"))}</textarea></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Често задавани въпроси</h3><div class="sub">Показват се на сайта и помагат в Google търсенето.</div>
+      <div id="faqList"></div>
+      <button class="btn sm" id="faqAdd">+ Добави въпрос</button>
+    </div>
+
+    <div class="card">
+      <h3>SEO (Google)</h3><div class="sub">Оставете празно за автоматичен текст.</div>
+      <div class="grid">
+        ${F("seoTitle", "Заглавие в Google", { max: 120, full: true, ph: `${S.name} — Барбершоп ${S.city} | Онлайн резервация` })}
+        ${F("seoDescription", "Описание в Google", { max: 300, full: true, area: true })}
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Резервно копие</h3><div class="sub">Изтеглете настройките или ги прехвърлете от друг сайт (без снимките).</div>
+      <div class="actions" style="justify-content:flex-start">
+        <button class="btn sm" id="expBtn">⬇ Експорт</button>
+        <label class="btn sm">⬆ Импорт<input type="file" id="impIn" accept="application/json" hidden></label>
+      </div>
+    </div>
+
+    <div class="savebar"><div class="in"><span class="msg" id="saveMsg">Промените се записват с бутона.</span><button class="btn gold" id="saveBtn">Запази промените</button></div></div>
+  `);
+  bindShell();
+  renderServices(); renderHighlights(); renderFaq();
+  bindSettings();
+}
+
+function slotHTML(name, has, label) {
+  return `<div class="slot" data-slot="${name}">
+    ${has ? `<img src="/media/${name}?v=${S.mediaVersion || 1}" alt=""><button class="x" data-rm="${name}" title="Изтрий">✕</button>` : label}
+    <input type="file" accept="image/*" hidden data-up="${name}">
+  </div>`;
+}
+
+function markDirty() {
+  dirty = true;
+  const m = document.getElementById("saveMsg");
+  if (m) { m.textContent = "Имате незапазени промени."; m.className = "msg"; }
+}
+
+function renderServices() {
+  const box = document.getElementById("svcList");
+  box.innerHTML = (S.services || []).map((s, i) => `
+    <div class="row-item" data-i="${i}">
+      <div class="top"><b>Услуга ${i + 1}</b>
+        <button class="btn sm" data-mv="-1" ${i === 0 ? "disabled" : ""}>↑</button>
+        <button class="btn sm" data-mv="1" ${i === S.services.length - 1 ? "disabled" : ""}>↓</button>
+        <button class="btn sm danger" data-rmsvc>✕</button></div>
+      <div class="g">
+        <div class="wide"><label class="l">Име</label><input data-s="name" value="${esc(s.name)}" maxlength="60"></div>
+        <div><label class="l">Цена (€)</label><input data-s="price" value="${esc(s.price ?? "")}" inputmode="decimal" placeholder="—"></div>
+        <div><label class="l">Минути</label><select data-s="duration">${[10, 15, 20, 30, 40, 45, 60, 75, 90, 120, 150, 180, 240].map((m) => `<option value="${m}" ${m === s.duration ? "selected" : ""}>${m}</option>`).join("")}${[10, 15, 20, 30, 40, 45, 60, 75, 90, 120, 150, 180, 240].includes(s.duration) ? "" : `<option value="${s.duration}" selected>${s.duration}</option>`}</select></div>
+        <div><label class="l">Икона</label>${iconSelect(s.icon, 'data-s="icon"')}</div>
+        <div class="full"><label class="l">Описание</label><input data-s="desc" value="${esc(s.desc)}" maxlength="200"></div>
+        <label class="check full"><input type="checkbox" data-s="featured" ${s.featured ? "checked" : ""}> Изтъкната (по-видима, показва се в началото)</label>
+      </div>
+    </div>`).join("");
+  box.querySelectorAll(".row-item").forEach((row) => {
+    const i = Number(row.dataset.i);
+    row.querySelectorAll("[data-s]").forEach((el) => el.addEventListener(el.type === "checkbox" || el.tagName === "SELECT" ? "change" : "input", () => {
+      const k = el.dataset.s;
+      S.services[i][k] = el.type === "checkbox" ? el.checked : k === "duration" ? Number(el.value) : k === "price" ? (el.value.trim() === "" ? null : el.value.trim()) : el.value;
+      markDirty();
+    }));
+    row.querySelectorAll("[data-mv]").forEach((b) => b.onclick = () => {
+      const j = i + Number(b.dataset.mv);
+      [S.services[i], S.services[j]] = [S.services[j], S.services[i]];
+      markDirty(); renderServices();
+    });
+    row.querySelector("[data-rmsvc]").onclick = () => {
+      if (S.services.length === 1) return alert("Трябва да има поне една услуга.");
+      if (!confirm(`Да се изтрие ли „${S.services[i].name}“?`)) return;
+      S.services.splice(i, 1); markDirty(); renderServices();
+    };
+  });
+}
+
+function renderHighlights() {
+  const box = document.getElementById("hlList");
+  S.highlights = S.highlights || [];
+  box.innerHTML = S.highlights.map((h, i) => `
+    <div class="row-item" data-i="${i}">
+      <div class="top"><b>Предимство ${i + 1}</b><button class="btn sm danger" data-rmhl>✕</button></div>
+      <div class="g">
+        <div><label class="l">Икона</label>${iconSelect(h.icon, 'data-h="icon"')}</div>
+        <div class="wide" style="grid-column:span 3"><label class="l">Заглавие</label><input data-h="title" value="${esc(h.title)}" maxlength="50"></div>
+        <div class="full"><label class="l">Текст</label><input data-h="text" value="${esc(h.text)}" maxlength="120"></div>
+      </div>
+    </div>`).join("");
+  box.querySelectorAll(".row-item").forEach((row) => {
+    const i = Number(row.dataset.i);
+    row.querySelectorAll("[data-h]").forEach((el) => el.addEventListener(el.tagName === "SELECT" ? "change" : "input", () => { S.highlights[i][el.dataset.h] = el.value; markDirty(); }));
+    row.querySelector("[data-rmhl]").onclick = () => { S.highlights.splice(i, 1); markDirty(); renderHighlights(); };
+  });
+  document.getElementById("hlAdd").disabled = S.highlights.length >= 4;
+}
+
+function renderFaq() {
+  const box = document.getElementById("faqList");
+  S.faq = S.faq || [];
+  box.innerHTML = S.faq.map((f, i) => `
+    <div class="row-item" data-i="${i}">
+      <div class="top"><b>Въпрос ${i + 1}</b><button class="btn sm danger" data-rmfaq>✕</button></div>
+      <div class="g">
+        <div class="full"><label class="l">Въпрос</label><input data-q="q" value="${esc(f.q)}" maxlength="150"></div>
+        <div class="full"><label class="l">Отговор</label><textarea data-q="a" maxlength="600">${esc(f.a)}</textarea></div>
+      </div>
+    </div>`).join("");
+  box.querySelectorAll(".row-item").forEach((row) => {
+    const i = Number(row.dataset.i);
+    row.querySelectorAll("[data-q]").forEach((el) => el.addEventListener("input", () => { S.faq[i][el.dataset.q] = el.value; markDirty(); }));
+    row.querySelector("[data-rmfaq]").onclick = () => { S.faq.splice(i, 1); markDirty(); renderFaq(); };
+  });
+}
+
+function parseMaps(u) {
+  let m = String(u).match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/);
+  if (!m) m = String(u).match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+  if (!m) m = String(u).match(/[?&](?:q|query|destination)=(-?\d+\.\d+),(-?\d+\.\d+)/);
+  return m ? { lat: Number(m[1]), lng: Number(m[2]) } : null;
+}
+
+function bindSettings() {
+  const $ = (id) => document.getElementById(id);
+  app.querySelectorAll("[data-color]").forEach((c) => c.addEventListener("input", () => {
+    app.querySelector(`[data-f="${c.dataset.color}"]`).value = c.value; markDirty();
+  }));
+  app.querySelectorAll('[data-f="accent"],[data-f="bg"]').forEach((t) => t.addEventListener("input", () => {
+    if (/^#[0-9a-f]{6}$/i.test(t.value)) app.querySelector(`[data-color="${t.dataset.f}"]`).value = t.value;
+  }));
+  const mapsIn = app.querySelector('[data-f="mapsUrl"]');
+  mapsIn.addEventListener("input", () => {
+    const g = parseMaps(mapsIn.value);
+    const hint = mapsIn.parentElement.querySelector(".hint");
+    if (g) {
+      app.querySelector('[data-f="lat"]').value = g.lat; app.querySelector('[data-f="lng"]').value = g.lng;
+      hint.innerHTML = `<span class="ok">✓ Координатите са попълнени.</span>`;
+    } else if (mapsIn.value) {
+      hint.textContent = "Не намерих координати. При кратък линк (maps.app.goo.gl) го отворете в браузъра и копирайте пълния адрес.";
+    }
+  });
+  app.querySelectorAll("[data-open]").forEach((cb) => cb.addEventListener("change", () => {
+    const d = cb.dataset.open;
+    app.querySelector(`[data-from="${d}"]`).disabled = !cb.checked;
+    app.querySelector(`[data-to="${d}"]`).disabled = !cb.checked;
+  }));
+  $("svcAdd").onclick = () => {
+    S.services.push({ id: "s" + Date.now().toString(36), name: "Нова услуга", desc: "", price: null, duration: 30, icon: "scissors", featured: false });
+    markDirty(); renderServices();
+  };
+  $("hlAdd").onclick = () => { if (S.highlights.length < 4) { S.highlights.push({ icon: "star", title: "", text: "" }); markDirty(); renderHighlights(); } };
+  $("faqAdd").onclick = () => { S.faq.push({ q: "", a: "" }); markDirty(); renderFaq(); };
+
+  // media
+  bindSettingsMediaOnly();
+
+  $("expBtn").onclick = () => {
+    const out = { ...collect() };
+    delete out.logo; delete out.gallery; delete out.mediaVersion;
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([JSON.stringify(out, null, 2)], { type: "application/json" }));
+    a.download = `nastroiki-${(S.shortName || "site").toLowerCase().replace(/[^a-z0-9а-я]+/gi, "-")}.json`;
+    a.click();
+  };
+  $("impIn").onchange = async (e) => {
+    const file = e.target.files[0]; if (!file) return;
+    try {
+      const data = JSON.parse(await file.text());
+      if (!confirm("Това ще замени текущите настройки (без снимките). Продължаване?")) return;
+      delete data.logo; delete data.gallery; delete data.mediaVersion;
+      Object.assign(S, data); markDirty(); settingsView(); markDirty();
+    } catch { alert("Невалиден файл."); }
+  };
+  $("saveBtn").onclick = save;
+}
+
+function bindSettingsMediaOnly() {
+  // re-attach handlers after upload/delete
+  app.querySelectorAll("[data-slot]").forEach((slot) => {
+    if (slot.dataset.bound) return;
+    slot.dataset.bound = "1";
+    const name = slot.dataset.slot, input = slot.querySelector("[data-up]");
+    slot.addEventListener("click", (e) => { if (e.target.closest("[data-rm]") || e.target === input) return; input.click(); });
+    input.addEventListener("change", async () => {
+      const file = input.files[0]; if (!file) return;
+      slot.classList.add("busy");
+      try {
+        const blob = await shrink(file, name === "logo" ? 700 : 1600, name === "logo");
+        const r = await api("POST", `/api/admin/media?name=${name}`, blob, { "content-type": blob.type });
+        S.logo = r.settings.logo; S.gallery = r.settings.gallery; S.mediaVersion = r.settings.mediaVersion;
+        slot.outerHTML = slotHTML(name, name, "");
+        bindSettingsMediaOnly();
+      } catch (err) { alert(err.message); slot.classList.remove("busy"); }
+    });
+  });
+  bindRemove();
+}
+
+function bindRemove() {
+  app.querySelectorAll("[data-rm]").forEach((b) => {
+    if (b.dataset.bound) return;
+    b.dataset.bound = "1";
+    b.onclick = async (e) => {
+      e.stopPropagation();
+      if (!confirm("Да се изтрие ли снимката?")) return;
+      const name = b.dataset.rm;
+      try {
+        const r = await api("DELETE", `/api/admin/media?name=${name}`);
+        S.logo = r.settings.logo; S.gallery = r.settings.gallery; S.mediaVersion = r.settings.mediaVersion;
+        const slot = app.querySelector(`[data-slot="${name}"]`);
+        slot.outerHTML = slotHTML(name, "", name === "logo" ? "Качи лого" : "+ Снимка");
+        bindSettingsMediaOnly();
+      } catch (err) { alert(err.message); }
+    };
+  });
+}
+
+// resize the photo in the browser before upload
+function shrink(file, maxSide, keepPng) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const k = Math.min(1, maxSide / Math.max(img.width, img.height));
+      const c = document.createElement("canvas");
+      c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      const type = keepPng && file.type === "image/png" ? "image/png" : "image/jpeg";
+      c.toBlob((b) => (b ? resolve(b) : reject(new Error("Грешка при обработка на снимката."))), type, 0.84);
+      URL.revokeObjectURL(img.src);
+    };
+    img.onerror = () => reject(new Error("Файлът не е снимка."));
+    img.src = URL.createObjectURL(file);
+  });
+}
+
+function collect() {
+  const out = { ...S };
+  app.querySelectorAll("[data-f]").forEach((el) => {
+    const k = el.dataset.f;
+    if (["chairs", "minLeadMinutes", "maxDaysAhead", "slotStep"].includes(k)) out[k] = Number(el.value);
+    else if (k === "lat" || k === "lng") out[k] = el.value === "" ? null : Number(el.value);
+    else out[k] = el.value.trim();
+  });
+  out.badges = [0, 1].map((i) => ({
+    title: app.querySelector(`[data-badge="${i}.title"]`).value.trim(),
+    text: app.querySelector(`[data-badge="${i}.text"]`).value.trim(),
+  }));
+  out.marquee = document.getElementById("marqueeIn").value.split(",").map((x) => x.trim()).filter(Boolean);
+  out.offer = {
+    enabled: document.getElementById("offOn").checked,
+    eyebrow: document.getElementById("offEyebrow").value.trim(),
+    title: document.getElementById("offTitle").value.trim(),
+    price: document.getElementById("offPrice").value.trim() === "" ? null : document.getElementById("offPrice").value.trim(),
+    priceNote: document.getElementById("offNote").value.trim(),
+    items: document.getElementById("offItems").value.split("\n").map((x) => x.trim()).filter(Boolean),
+    serviceId: document.getElementById("offSvc").value,
+  };
+  out.hours = {};
+  for (let d = 0; d < 7; d++) {
+    const open = app.querySelector(`[data-open="${d}"]`).checked;
+    out.hours[d] = open ? [app.querySelector(`[data-from="${d}"]`).value, app.querySelector(`[data-to="${d}"]`).value] : null;
+  }
+  out.closedDates = document.getElementById("closedIn").value.split(/\s+/).map((x) => x.trim()).filter((x) => /^\d{4}-\d{2}-\d{2}$/.test(x));
+  return out;
+}
+
+async function save() {
+  const btn = document.getElementById("saveBtn"), msg = document.getElementById("saveMsg");
+  const data = collect();
+  for (let d = 0; d < 7; d++) {
+    const h = data.hours[d];
+    if (h && toMin(h[0]) >= toMin(h[1])) { msg.textContent = `${WEEKDAYS[d]}: часът на затваряне трябва да е след отварянето.`; msg.className = "msg err"; return; }
+  }
+  btn.disabled = true; btn.textContent = "Записване…";
+  try {
+    const r = await api("PUT", "/api/admin/settings", data);
+    S = r.settings; dirty = false;
+    settingsView();
+    const m = document.getElementById("saveMsg");
+    m.innerHTML = `<span class="ok">✓ Запазено. Сайтът е обновен.</span>`;
+  } catch (e) {
+    msg.textContent = e.message; msg.className = "msg err";
+    btn.disabled = false; btn.textContent = "Запази промените";
+  }
+}
+
+app.addEventListener("input", (e) => { if (tab === "settings" && e.target.closest(".card")) markDirty(); });
+app.addEventListener("change", (e) => { if (tab === "settings" && e.target.closest(".card") && !e.target.closest("[data-slot]")) markDirty(); });
+addEventListener("beforeunload", (e) => { if (dirty) { e.preventDefault(); e.returnValue = ""; } });
+start();
+</script>
+</body>
+</html>

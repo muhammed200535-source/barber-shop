@@ -1,0 +1,17 @@
+{
+  // Cloudflare Worker config.
+  // Nothing here is secret: the password and tokens are stored as Secrets in the Cloudflare dashboard.
+  "name": "remagic-barber",
+  "main": "dist/remagic/worker.js",
+  "compatibility_date": "2026-11-01",
+  "workers_dev": true,
+  "keep_vars": true,
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "remagic-db",
+      // Cloudflare → Storage & Databases → D1 → your database → Database ID
+      "database_id": "YOUR_D1_DATABASE_ID"
+    }
+  ]
+}

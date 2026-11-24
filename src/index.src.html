@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!--HEAD-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/*CSS*/
+.brand .mono{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--gold-dim);border:1px solid color-mix(in srgb,var(--gold) 40%,transparent);font-family:var(--serif);font-size:1.3rem;color:var(--gold2)}
+.emblem .disc{position:absolute;inset:16%;width:68%;height:68%;border-radius:50%;object-fit:cover}
+.emblem .disc-mono{position:absolute;inset:16%;display:grid;place-items:center;font-family:var(--serif);font-size:clamp(5rem,14vw,9rem);color:var(--silver,#dfe1e6);text-shadow:0 10px 30px rgba(0,0,0,.5)}
+.emblem .badge svg{width:20px;height:20px;flex:none;color:var(--gold2)}
+.map-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.map-btns .btn{padding:10px 16px;font-size:.85rem}
+.book-grid>*,.panel,.step,.dates,.times{min-width:0;max-width:100%}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-scissors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"/></symbol>
+    <symbol id="i-beard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5v5c0 5 3 10 7 10s7-5 7-10V5"/><path d="M9 14c1.5-1 4.5-1 6 0"/><path d="M5 5c2 2 4 2 7 2s5 0 7-2"/></symbol>
+    <symbol id="i-crown" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l4 4 5-7 5 7 4-4-2 11H5L3 8z"/><path d="M5 19h14"/></symbol>
+    <symbol id="i-curl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20c-3-2-3-6 0-7s4 3 1 4-3-5 1-7 6 0 6 3-3 3-3 1 4-5 7-2 1 8-3 8"/></symbol>
+    <symbol id="i-coffee" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 0 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"/><path d="M7 2v2M11 2v2M15 2v2"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></symbol>
+    <symbol id="i-razor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15l9-9 5 5-9 9z"/><path d="M13 6l3-3 5 5-3 3"/><path d="M7 12l5 5"/></symbol>
+    <symbol id="i-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></symbol>
+    <symbol id="i-child" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><path d="M8 21v-6l-2-3 3-2h6l3 2-2 3v6M10 21v-4h4v4"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></symbol>
+    <symbol id="i-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-fb" viewBox="0 0 24 24" fill="currentColor"><path d="M14 8.5V6.8c0-.8.5-1.3 1.4-1.3H17V2.2C16.6 2.1 15.5 2 14.3 2 11.7 2 10 3.6 10 6.4v2.1H7.2V12H10v10h4V12h2.8l.4-3.5H14z"/></symbol>
+    <symbol id="i-tt" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 2h-3.3v13.2a2.9 2.9 0 1 1-2.1-2.8V9a6.3 6.3 0 1 0 5.4 6.2V8.5a7.6 7.6 0 0 0 4.4 1.4V6.6a4.4 4.4 0 0 1-4.4-4.6z"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></symbol>
+  </defs>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="#top" class="brand" aria-label="{{name}}">
+      <span class="brand-logo" data-logo></span>
+      <span><b>{{shortName}}</b><small>{{subName}}</small></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#uslugi">Услуги</a>
+      <a href="#oferta" data-if-offer>Оферти</a>
+      <a href="#galeria" data-if-gallery>Галерия</a>
+      <a href="#kontakt">Контакт</a>
+      <a href="#rezervacia" class="btn btn-gold">Запази час</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><span></span></button>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="reveal">
+      <div class="eyebrow">{{eyebrow}}</div>
+      <h1><span>{{heroTitle1}}</span><span class="gold-text">{{heroTitle2}}</span></h1>
+      <p class="tag"><em>{{tagline}}</em> {{heroText}}</p>
+      <div class="hero-cta">
+        <a href="#rezervacia" class="btn btn-gold"><svg><use href="#i-cal"/></svg>Запази час онлайн</a>
+        <a href="tel:{{phone}}" class="btn btn-ghost"><svg><use href="#i-phone"/></svg>{{phoneDisplay}}</a>
+      </div>
+      <div class="hero-meta" id="heroMeta"></div>
+    </div>
+    <div class="emblem reveal" aria-hidden="true">
+      <div class="ring"></div><div class="ring r2"></div><div class="ring r3"></div>
+      <div id="emblemCenter"></div>
+      <div class="badge b1" id="badge1"></div>
+      <div class="badge b2" id="badge2"></div>
+    </div>
+  </div>
+</section>
+
+<div class="strip" aria-hidden="true" id="strip"><div class="marquee" id="marquee"></div></div>
+
+<section id="uslugi">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">Услуги</div>
+        <h2 class="title">Всичко за <span class="gold-text">перфектния</span> вид</h2>
+      </div>
+      <p class="lead">Изберете услуга и запазете час за секунди — без обаждане и без чакане.</p>
+    </div>
+    <div class="services" id="servicesGrid"></div>
+  </div>
+</section>
+
+<section id="oferta" class="offer" data-if-offer>
+  <div class="wrap">
+    <div class="offer-card reveal">
+      <div class="offer-left">
+        <div class="eyebrow" id="offerEyebrow"></div>
+        <h2 class="title" style="margin-bottom:0" id="offerTitle"></h2>
+        <div class="big gold-text" id="offerPrice"></div>
+        <div class="includes" id="offerItems"></div>
+        <a href="#rezervacia" class="btn btn-gold" id="offerBtn">Запази сега <svg><use href="#i-arrow"/></svg></a>
+      </div>
+      <div class="offer-right" id="offerRight"></div>
+    </div>
+  </div>
+</section>
+
+<section id="galeria" data-if-gallery>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">Галерия</div>
+        <h2 class="title">Нашата <span class="gold-text">работа</span></h2>
+      </div>
+      <p class="lead" id="galleryLead">Вижте още от нашата работа в социалните мрежи.</p>
+    </div>
+    <div class="gallery" id="gallery"></div>
+  </div>
+</section>
+
+<section id="rezervacia" class="booking">
+  <div class="wrap book-grid">
+    <div class="book-info reveal">
+      <div class="eyebrow">Онлайн резервация</div>
+      <h2 class="title">Запази своя <span class="gold-text">час</span> още днес</h2>
+      <p class="lead">Свободните часове се обновяват в реално време. Получаваме вашата резервация веднага.</p>
+      <ul>
+        <li><i>1</i><span>Изберете услуга</span></li>
+        <li><i>2</i><span>Изберете ден и свободен час</span></li>
+        <li><i>3</i><span>Оставете име и телефон — готово!</span></li>
+      </ul>
+      <p class="lead" style="margin-top:30px;font-size:.9rem">Предпочитате да се обадите? <a href="tel:{{phone}}" style="color:var(--gold2);font-weight:700">{{phoneDisplay}}</a></p>
+    </div>
+
+    <div class="panel reveal" id="panel">
+      <form id="bookForm" novalidate>
+        <div class="step">
+          <div class="step-label"><h4>1 · Услуга</h4><span id="svcLabel"></span></div>
+          <div class="svc-pick" id="svcPick"></div>
+        </div>
+        <div class="step">
+          <div class="step-label"><h4>2 · Ден</h4><span id="dateLabel"></span></div>
+          <div class="dates" id="dates"></div>
+        </div>
+        <div class="step">
+          <div class="step-label"><h4>3 · Час</h4><span id="timeLabel"></span></div>
+          <div class="times" id="times"><div class="hint">Първо изберете услуга и ден.</div></div>
+        </div>
+        <div class="step" style="margin-bottom:0">
+          <div class="step-label"><h4>4 · Вашите данни</h4></div>
+          <div class="fields">
+            <div class="field"><label for="fName">Име</label><input id="fName" name="name" autocomplete="name" placeholder="Иван Иванов" maxlength="60" required></div>
+            <div class="field"><label for="fPhone">Телефон</label><input id="fPhone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="08X XXX XXXX" maxlength="20" required></div>
+            <div class="field full"><label for="fNote">Бележка (по желание)</label><textarea id="fNote" name="note" maxlength="300" placeholder="Напр. желан стил на подстрижка"></textarea></div>
+            <div class="hp" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
+          </div>
+        </div>
+        <div class="summary">
+          <p id="summaryText">Изберете услуга, ден и час.</p>
+          <button type="submit" class="btn btn-gold" id="submitBtn" disabled>Потвърди резервацията</button>
+        </div>
+        <div class="error" id="err" role="alert"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section id="vaprosi" data-if-faq>
+  <div class="wrap">
+    <div class="reveal" style="text-align:center;margin-bottom:40px">
+      <div class="eyebrow">Въпроси</div>
+      <h2 class="title">Често задавани <span class="gold-text">въпроси</span></h2>
+    </div>
+    <div class="faq reveal" id="faq"></div>
+  </div>
+</section>
+
+<section id="kontakt" class="contact">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">Контакт</div>
+        <h2 class="title">Очакваме ви в <span class="gold-text">{{city}}</span></h2>
+      </div>
+    </div>
+    <div class="contact-grid">
+      <div class="c-card reveal">
+        <div class="c-item"><div class="ic"><svg><use href="#i-pin"/></svg></div><div><small>Адрес</small><span>{{address}}</span>
+          <div class="map-btns" id="mapBtns"></div></div></div>
+        <div class="c-item"><div class="ic"><svg><use href="#i-phone"/></svg></div><div><small>Телефон</small><a href="tel:{{phone}}">{{phoneDisplay}}</a></div></div>
+        <div class="c-item"><div class="ic"><svg><use href="#i-clock"/></svg></div><div style="flex:1"><small>Работно време</small><table class="hours" id="hoursTable"></table></div></div>
+        <div class="socials" id="socials"></div>
+      </div>
+      <div class="map reveal" id="mapBox">
+        <iframe id="mapFrame" title="Карта — {{name}}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="brand"><span class="brand-logo" data-logo></span><span><b>{{shortName}}</b><small>{{subName}}</small></span></div>
+    <div>© <span id="year"></span> {{name}} · {{city}}</div>
+  </div>
+</footer>
+
+<div class="mbar">
+  <a href="#rezervacia" class="btn btn-gold"><svg><use href="#i-cal"/></svg>Запази час</a>
+  <a href="tel:{{phone}}" class="btn btn-ghost call" aria-label="Обади се"><svg><use href="#i-phone"/></svg></a>
+</div>
+
+<script>window.SITE = "__SITE__";</script>
+<script type="module">
+import {
+  WEEKDAYS, WEEKDAYS_SHORT, MONTHS_SHORT, nowInZone, bookableDates, availableStarts,
+  weekday, formatDateBG, phoneDisplay, priceText, durText,
+} from "/booking.js";
+
+const C = window.SITE;
+const $ = (s, r = document) => r.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const media = (n) => `/media/${n}?v=${C.mediaVersion || 1}`;
+const icon = (n) => `<svg><use href="#i-${esc(n)}"/></svg>`;
+const telHref = `tel:${String(C.phone || "").replace(/[^\d+]/g, "")}`;
+const phoneTxt = phoneDisplay(C.phone);
+const services = C.services || [];
+const offer = C.offer || {};
+const offerOn = !!(offer.enabled && offer.title);
+const gallery = C.gallery || [];
+const faq = C.faq || [];
+
+const toggle = (attr, on) => document.querySelectorAll(`[${attr}]`).forEach((el) => { el.hidden = !on; });
+toggle("data-if-offer", offerOn);
+toggle("data-if-gallery", gallery.length > 0);
+toggle("data-if-faq", faq.length > 0);
+
+/* ---------- Logo ---------- */
+const letter = esc((C.shortName || C.name || "B").trim()[0] || "B");
+document.querySelectorAll("[data-logo]").forEach((el) => {
+  el.innerHTML = C.logo
+    ? `<img src="${media(C.logo)}" alt="${esc(C.name)} лого" width="42" height="42">`
+    : `<span class="mono">${letter}</span>`;
+});
+$("#emblemCenter").innerHTML = C.logo
+  ? `<img class="disc" src="${media(C.logo)}" alt="">`
+  : `<div class="disc-mono">${letter}</div>`;
+
+/* ---------- Hero ---------- */
+const badges = C.badges || [];
+[["#badge1", badges[0], "scissors"], ["#badge2", badges[1], "crown"]].forEach(([sel, b, ic]) => {
+  const el = $(sel);
+  if (b && b.title) el.innerHTML = `${icon(ic)}<span><b>${esc(b.title)}</b><br>${esc(b.text)}</span>`;
+  else el.remove();
+});
+const priced = [...services.filter((s) => s.featured), ...services.filter((s) => !s.featured)].filter((s) => s.price != null).slice(0, 2);
+$("#heroMeta").innerHTML = priced.map((s) => `<div><strong>${esc(s.price)} €</strong>${esc(s.name.toLowerCase())}</div>`).join("")
+  + `<div><strong>24/7</strong>онлайн резервация</div>`;
+
+const marq = C.marquee || [];
+if (marq.length) {
+  const row = marq.map((m) => `<span>${esc(m)}</span>`).join("");
+  $("#marquee").innerHTML = row + row + row;
+} else $("#strip").remove();
+
+/* ---------- Services ---------- */
+$("#servicesGrid").innerHTML = services.map((s) => `
+  <article class="svc reveal ${s.featured ? "featured" : ""}">
+    ${offerOn && offer.serviceId === s.id ? '<span class="flag">Топ оферта</span>' : ""}
+    <div class="ic">${icon(s.icon || "scissors")}</div>
+    <h3>${esc(s.name)}</h3>
+    <p>${esc(s.desc)}</p>
+    <div class="row">
+      <div><div class="price ${s.price == null ? "ask" : ""}">${priceText(s.price)}</div><div class="dur">${durText(s.duration)}</div></div>
+      <a href="#rezervacia" class="pick" data-pick="${esc(s.id)}">Запази <svg width="16" height="16"><use href="#i-arrow"/></svg></a>
+    </div>
+  </article>`).join("");
+
+/* ---------- Offer ---------- */
+if (offerOn) {
+  $("#offerEyebrow").textContent = offer.eyebrow || "Топ оферта";
+  $("#offerTitle").textContent = offer.title;
+  $("#offerPrice").innerHTML = offer.price != null
+    ? `${esc(offer.price)}€ <small style="-webkit-text-fill-color:var(--muted)">${esc(offer.priceNote)}</small>` : "";
+  $("#offerItems").innerHTML = (offer.items || []).map((x) => `<div>${esc(x)}</div>`).join("");
+  const target = services.find((s) => s.id === offer.serviceId);
+  if (target) $("#offerBtn").dataset.pick = target.id;
+  const minis = services.filter((s) => s.featured && s.id !== offer.serviceId).slice(0, 2).map((s) => `
+    <div class="mini"><div class="ic">${icon(s.icon)}</div><div><h4>${esc(s.name)}</h4><p>${esc(s.desc)}</p></div>${s.price != null ? `<div class="p">${esc(s.price)}€</div>` : ""}</div>`);
+  const hl = (C.highlights || []).map((h) => `
+    <div class="mini"><div class="ic">${icon(h.icon)}</div><div><h4>${esc(h.title)}</h4><p>${esc(h.text)}</p></div></div>`);
+  const right = [...minis, ...hl].slice(0, 4);
+  if (right.length) $("#offerRight").innerHTML = right.join("");
+  else { $("#offerRight").remove(); $(".offer-card").style.gridTemplateColumns = "1fr"; }
+}
+
+/* ---------- Gallery ---------- */
+if (gallery.length) {
+  $("#gallery").innerHTML = gallery.map((g, i) => `<figure><img src="${media(g)}" alt="${esc(C.name)} — снимка ${i + 1}" loading="lazy"></figure>`).join("");
+  if (C.instagram) {
+    $("#gallery").insertAdjacentHTML("afterend", `<div class="gallery-cta reveal"><a href="${esc(C.instagram)}" target="_blank" rel="noopener" class="btn btn-ghost">${icon("ig")}Instagram</a></div>`);
+  }
+}
+
+/* ---------- SSS ---------- */
+$("#faq").innerHTML = faq.map((f) => `<details><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join("");
+
+/* ---------- Contact ---------- */
+const hasGeo = C.lat != null && C.lng != null;
+const btns = [];
+if (hasGeo) btns.push(`<a class="btn btn-gold" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${C.lat},${C.lng}">${icon("pin")}Упътване</a>`);
+if (C.mapsUrl) btns.push(`<a class="btn btn-ghost" target="_blank" rel="noopener" href="${esc(C.mapsUrl)}">Google Maps</a>`);
+$("#mapBtns").innerHTML = btns.join("");
+if (hasGeo) $("#mapFrame").src = `https://maps.google.com/maps?q=${C.lat},${C.lng}&z=17&hl=bg&output=embed`;
+else if (C.address) $("#mapFrame").src = `https://maps.google.com/maps?q=${encodeURIComponent(C.address)}&z=16&hl=bg&output=embed`;
+else $("#mapBox").remove();
+
+const todayDow = weekday(nowInZone(C.timeZone).date);
+$("#hoursTable").innerHTML = [1, 2, 3, 4, 5, 6, 0].map((d) => {
+  const h = C.hours && C.hours[d];
+  return `<tr class="${d === todayDow ? "today" : ""}"><td>${WEEKDAYS[d]}</td><td>${h ? `${h[0]} – ${h[1]}` : "Почивен ден"}</td></tr>`;
+}).join("");
+$("#socials").innerHTML = [
+  C.instagram && `<a href="${esc(C.instagram)}" target="_blank" rel="noopener" aria-label="Instagram">${icon("ig")}</a>`,
+  C.facebook && `<a href="${esc(C.facebook)}" target="_blank" rel="noopener" aria-label="Facebook">${icon("fb")}</a>`,
+  C.tiktok && `<a href="${esc(C.tiktok)}" target="_blank" rel="noopener" aria-label="TikTok">${icon("tt")}</a>`,
+  `<a href="${telHref}" aria-label="Обади се">${icon("phone")}</a>`,
+].filter(Boolean).join("");
+$("#year").textContent = new Date().getFullYear();
+
+/* ---------- Booking ---------- */
+const state = { service: null, date: null, time: null, busy: {}, loading: false };
+const svcPick = $("#svcPick"), datesEl = $("#dates"), timesEl = $("#times");
+
+svcPick.innerHTML = services.map((s) => `
+  <button type="button" class="opt" data-id="${esc(s.id)}" aria-pressed="false">
+    <b>${esc(s.name)}</b><small>${priceText(s.price)} · ${durText(s.duration)}</small>
+  </button>`).join("");
+
+const now0 = nowInZone(C.timeZone);
+const dates = bookableDates(C, now0);
+datesEl.innerHTML = dates.map((d) => {
+  const [, m, day] = d.split("-").map(Number);
+  const lbl = d === now0.date ? "Днес" : WEEKDAYS_SHORT[weekday(d)];
+  return `<button type="button" class="date" data-date="${d}" aria-pressed="false"><small>${lbl}</small><b>${day}</b><em>${MONTHS_SHORT[m - 1]}</em></button>`;
+}).join("") || `<div class="hint">Няма свободни дни в момента.</div>`;
+
+function setPressed(container, attr, value) {
+  container.querySelectorAll(`[${attr}]`).forEach((b) => b.setAttribute("aria-pressed", String(b.getAttribute(attr) === value)));
+}
+
+function selectService(id) {
+  state.service = services.find((s) => s.id === id) || null;
+  if (!state.service) return;
+  setPressed(svcPick, "data-id", id);
+  $("#svcLabel").textContent = state.service.name;
+  state.time = null;
+  const fits = (d) => availableStarts(C, d, state.service.duration, []).length > 0;
+  if (!state.date || !fits(state.date)) {
+    const d = dates.find(fits);
+    if (d) return selectDate(d, true);
+  }
+  renderTimes();
+}
+
+async function selectDate(d, scroll = true) {
+  state.date = d; state.time = null;
+  setPressed(datesEl, "data-date", d);
+  $("#dateLabel").textContent = formatDateBG(d);
+  if (scroll) datesEl.querySelector(`[data-date="${d}"]`)?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
+  await loadBusy(d);
+  renderTimes();
+}
+
+async function loadBusy(d, force = false) {
+  if (state.busy[d] && !force) return;
+  state.loading = true; renderTimes();
+  try {
+    const r = await fetch(`/api/slots?date=${d}`, { cache: "no-store" });
+    if (!r.ok) throw new Error();
+    state.busy[d] = (await r.json()).busy || [];
+  } catch { state.busy[d] = null; }
+  state.loading = false;
+}
+
+function renderTimes() {
+  if (!state.service || !state.date) {
+    timesEl.innerHTML = `<div class="hint">Първо изберете услуга и ден.</div>`;
+  } else if (state.loading) {
+    timesEl.innerHTML = Array(8).fill('<div class="skeleton"></div>').join("");
+  } else if (state.busy[state.date] === null) {
+    timesEl.innerHTML = `<div class="hint">Не успяхме да заредим свободните часове. Обадете се на <a href="${telHref}" style="color:var(--gold2)">${esc(phoneTxt)}</a> или <button type="button" id="retry" style="color:var(--gold2);text-decoration:underline">опитайте отново</button>.</div>`;
+    $("#retry").onclick = async () => { await loadBusy(state.date, true); renderTimes(); };
+  } else {
+    const slots = availableStarts(C, state.date, state.service.duration, state.busy[state.date]);
+    timesEl.innerHTML = slots.length
+      ? slots.map((t) => `<button type="button" class="time" data-time="${t}" aria-pressed="${t === state.time}">${t}</button>`).join("")
+      : `<div class="hint">Няма свободни часове за този ден. Изберете друг ден.</div>`;
+  }
+  $("#timeLabel").textContent = state.time || "";
+  updateSummary();
+}
+
+function updateSummary() {
+  const ok = state.service && state.date && state.time;
+  $("#submitBtn").disabled = !ok;
+  $("#summaryText").innerHTML = ok
+    ? `<b>${esc(state.service.name)}</b> · ${formatDateBG(state.date)} · <b>${state.time}</b>`
+    : "Изберете услуга, ден и час.";
+}
+
+svcPick.addEventListener("click", (e) => { const b = e.target.closest(".opt"); if (b) selectService(b.dataset.id); });
+datesEl.addEventListener("click", (e) => { const b = e.target.closest(".date"); if (b) selectDate(b.dataset.date); });
+timesEl.addEventListener("click", (e) => {
+  const b = e.target.closest(".time"); if (!b) return;
+  state.time = b.dataset.time; setPressed(timesEl, "data-time", state.time);
+  $("#timeLabel").textContent = state.time; updateSummary();
+});
+document.addEventListener("click", (e) => { const a = e.target.closest("[data-pick]"); if (a) selectService(a.dataset.pick); });
+
+$("#bookForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const err = $("#err"); err.textContent = "";
+  const f = e.target;
+  const name = f.name.value.trim(), phone = f.phone.value.trim();
+  if (name.length < 2) { err.textContent = "Моля, въведете вашето име."; f.name.focus(); return; }
+  if (phone.replace(/\D/g, "").length < 7) { err.textContent = "Моля, въведете валиден телефон."; f.phone.focus(); return; }
+  const btn = $("#submitBtn"); btn.disabled = true; btn.textContent = "Изпращане…";
+  try {
+    const r = await fetch("/api/book", {
+      method: "POST", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ service: state.service.id, date: state.date, time: state.time, name, phone, note: f.note.value.trim(), website: f.website.value }),
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      err.textContent = data.error || "Възникна грешка. Опитайте отново.";
+      if (data.code === "TAKEN") { state.time = null; await loadBusy(state.date, true); renderTimes(); }
+      btn.textContent = "Потвърди резервацията"; updateSummary();
+      return;
+    }
+    showSuccess(name);
+  } catch {
+    err.textContent = `Няма връзка. Опитайте отново или се обадете на ${phoneTxt}.`;
+    btn.textContent = "Потвърди резервацията"; updateSummary();
+  }
+});
+
+function showSuccess(name) {
+  const panel = $("#panel");
+  panel.innerHTML = `
+    <div class="success">
+      <div class="check"><svg><use href="#i-check"/></svg></div>
+      <h3>Готово, ${esc(name.split(" ")[0])}!</h3>
+      <p>Вашият час е запазен. Очакваме ви!</p>
+      <div class="when"><b>${state.time} · ${formatDateBG(state.date)}</b>${esc(state.service.name)}</div>
+      <p>Ако се налага да отмените или преместите часа, обадете се на <a href="${telHref}" style="color:var(--gold2)">${esc(phoneTxt)}</a>.</p>
+      <p style="margin-top:24px"><a href="#rezervacia" onclick="location.reload()" class="btn btn-ghost">Нова резервация</a></p>
+    </div>`;
+  panel.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+/* ---------- Navigation and animations ---------- */
+const nav = $("#nav");
+const onScroll = () => nav.classList.toggle("scrolled", scrollY > 20);
+addEventListener("scroll", onScroll, { passive: true }); onScroll();
+$("#burger").addEventListener("click", () => {
+  const open = nav.classList.toggle("open");
+  $("#burger").setAttribute("aria-expanded", String(open));
+});
+$("#navLinks").addEventListener("click", (e) => { if (e.target.closest("a")) nav.classList.remove("open"); });
+const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+  if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+}), { threshold: 0.12 });
+document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+# Secrets — NEVER upload to GitHub
+.dev.vars
+.env
+.env.*
+*.secret
+
+# Cloudflare / Node temporary files
+.wrangler/
+node_modules/
+
+# System files
+.DS_Store
+Thumbs.db
